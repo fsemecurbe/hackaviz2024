@@ -93,7 +93,7 @@ const jo_csv = await FileAttachment("data/jo_horraire.csv").csv({typed: true});
 const jo = aq.from(jo_csv)
 const localisation_lieux = await FileAttachment("data/localisation_lieux.geojson").json()
 const habillage_adminsitratif = FileAttachment("data/habillage_adminsitratif_fr.geojson").json()
-const libelle = FileAttachment("data/libelle administratif_fr.geojson").json()
+const libelle = FileAttachment("data/libelle_administratif_fr.geojson").json()
 ```
 
 
