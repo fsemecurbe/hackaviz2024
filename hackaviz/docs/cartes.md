@@ -6,9 +6,7 @@ title: Example carte
 
 <svg id="my_dataviz" width="400" height="400"></svg>
 
-```js
-habillage_adminsitratif
-```
+
 
 ```js
 // The svg
@@ -19,17 +17,7 @@ var svg = d3.select("svg"),
 var projection = d3.geoIdentity()
            .reflectY(true) 
            .fitSize([width,height],habillage_adminsitratif)
-// Map and projection
-//var projection = d3.geoIdentity()
-//.translate([-650000.3415267066,-6850000.695430356])
 
-	//geoNaturalEarth1()
-  //  .scale(width / 1.3 / Math.PI)
-  //  .translate([width / 2, height / 2])
-
-// Load external data and boot
-
-    // Draw the map
     svg.append("g")
         .selectAll("path")
         .data(habillage_adminsitratif.features)
@@ -41,19 +29,37 @@ var projection = d3.geoIdentity()
             .style("stroke", "#fff")
 
 
+svg
+      .selectAll("myCircles")
+      .data(jo_horraire)
+      .enter()
+      .append("circle")
+        .attr("cx", d => projection(localisation_lieux.features.filter(dd => dd.properties.Lieu==d.Lieu)[0].geometry.coordinates)[0])
+        .attr("cy", d => projection(localisation_lieux.features.filter(dd => dd.properties.Lieu==d.Lieu)[0].geometry.coordinates)[1])
+        .attr("r", d => d.capacité_h**0.5/10)
+        .attr("stroke-width", 1)
+        .attr("fill-opacity", .8)
+        .attr("fill", "grey")
+        .style("stroke", "white")
 ```
 
+
+```js
+localisation_lieux.features.filter(dd => dd.properties.Lieu=="Stade Pierre-Mauroy")[0].geometry.coordinates
+```
 
 
 ```js
 const jo_horraire = jo
-  .params({ horraire: Date.parse("2024-07-27T10:00Z") })
+  .params({ horraire: Date.parse("2024-08-04T16:00Z") })
   .filter((d,$) => aq.op.equal( aq.op.parse_date(d.horraire), $.horraire))
   .groupby('Lieu')
   .rollup({
     capacité_h: d=> aq.op.sum(d.capacité_h)
   })
-   
+  .objects()
+
+//var map = d3.map(jo_horraire, function(d) {return d.Lieu;});
   
 ```
 
