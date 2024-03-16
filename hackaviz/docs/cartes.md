@@ -41,12 +41,24 @@ svg
         .attr("fill-opacity", .8)
         .attr("fill", "grey")
         .style("stroke", "white")
-```
 
+svg.selectAll("text")
+    .data(libelle.features)
+    .enter()
+    .append("text")
+    .text(d => d.properties.emplacement)
+    .attr("x", d => projection(d.geometry.coordinates)[0])
+    .attr("y", d => projection(d.geometry.coordinates)[1])
+    .attr("text-anchor", "middle")
+    .attr("font-size", "15px")
+    .attr("fill", "black");
+
+```
 
 ```js
-localisation_lieux.features.filter(dd => dd.properties.Lieu=="Stade Pierre-Mauroy")[0].geometry.coordinates
+libelle
 ```
+
 
 
 ```js
@@ -58,8 +70,6 @@ const jo_horraire = jo
     capacité_h: d=> aq.op.sum(d.capacité_h)
   })
   .objects()
-
-//var map = d3.map(jo_horraire, function(d) {return d.Lieu;});
   
 ```
 
@@ -83,6 +93,7 @@ const jo_csv = await FileAttachment("data/jo_horraire.csv").csv({typed: true});
 const jo = aq.from(jo_csv)
 const localisation_lieux = await FileAttachment("data/localisation_lieux.geojson").json()
 const habillage_adminsitratif = FileAttachment("data/habillage_adminsitratif_fr.geojson").json()
+const libelle = FileAttachment("data/libelle administratif_fr.geojson").json()
 ```
 
 
