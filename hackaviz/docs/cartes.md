@@ -55,9 +55,6 @@ svg.selectAll("text")
 
 ```
 
-```js
-libelle
-```
 
 
 
