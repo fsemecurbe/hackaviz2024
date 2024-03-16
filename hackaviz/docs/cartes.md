@@ -8,9 +8,11 @@ title: Example carte
 
 
 
+
+
 ```js
 // The svg
-var svg = d3.select("svg"),
+var svg = d3.select("#my_dataviz"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
@@ -28,6 +30,31 @@ var projection = d3.geoIdentity()
             )
             .style("stroke", "#fff")
 
+// create a tooltip
+    const Tooltip = d3.select("#my_dataviz")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 1)
+      .style("background-color", "white")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "5px")
+      .style("padding", "5px")
+    
+  const mouseover = function(event, d) {
+      Tooltip.style("opacity", 1)
+    }
+    var mousemove = function(event, d) {
+      console.log(d.Lieu)
+      Tooltip
+        .html("toto")
+        .style("left", (event.x)/2 + "px")
+        .style("top", (event.y)/2 - 30 + "px")
+    }
+    var mouseleave = function(event, d) {
+      Tooltip.style("opacity", 0)
+    }
+
 
 svg
       .selectAll("myCircles")
@@ -41,8 +68,13 @@ svg
         .attr("fill-opacity", .8)
         .attr("fill", "grey")
         .style("stroke", "white")
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseleave", mouseleave)
 
-svg.selectAll("text")
+
+
+    svg.selectAll("text")
     .data(libelle.features)
     .enter()
     .append("text")
@@ -52,6 +84,7 @@ svg.selectAll("text")
     .attr("text-anchor", "middle")
     .attr("font-size", "15px")
     .attr("fill", "black");
+
 
 ```
 
@@ -66,6 +99,7 @@ const jo_horraire = jo
   .rollup({
     capacité_h: d=> aq.op.sum(d.capacité_h)
   })
+  .orderby(aq.desc('capacité_h'))
   .objects()
   
 ```
