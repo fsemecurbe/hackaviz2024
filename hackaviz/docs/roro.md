@@ -1,4 +1,12 @@
-<div id="my_dataviz"></div>
+<div id="my_dataviz2"></div>
+
+<style>
+.circle:hover{
+  stroke: black;
+  stroke-width: 4px;
+}
+</style>
+
 
 ```js
 
@@ -7,7 +15,7 @@ const width = 460
 const height = 400
 
 // The svg
-const svg = d3.select("#my_dataviz")
+const svg = d3.create("svg")
   .append("svg")
   .attr("width", width)
   .attr("height", height)
@@ -47,7 +55,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
         .style("opacity", .3)
 
     // create a tooltip
-    const Tooltip = d3.select("#my_dataviz")
+    const Tooltip = d3.select("#my_dataviz2")
       .append("div")
       .attr("class", "tooltip")
       .style("opacity", 1)
@@ -64,8 +72,8 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
     var mousemove = function(event, d) {
       Tooltip
         .html(d.name + "<br>" + "long: " + d.long + "<br>" + "lat: " + d.lat)
-        .style("left", (event.x)/2 + "px")
-        .style("top", (event.y)/2 - 30 + "px")
+        .style("left", (event.x) +3500 + "px")
+        .style("top", (event.y)  + "px")
     }
     var mouseleave = function(event, d) {
       Tooltip.style("opacity", 0)
@@ -90,5 +98,5 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
 
 
 })
-
+display(svg.node());
 ```
